@@ -173,24 +173,45 @@ const Services = () => {
 };
 
 const Projects = () => {
+  const [selectedProject, setSelectedProject] = useState(null);
+
   const projects = [
     {
+      id: 'tailtrips',
       title: 'TailTrips Hotel Ecosystem',
-      desc: 'A modern hotel booking platform with real-time management and payment integration.',
-      tags: ['React', 'Spring Boot', 'MongoDB'],
-      link: '#',
+      desc: 'A complete travel-tech infrastructure including a Flutter mobile app, Node.js backend, and a specialized Admin management portal.',
+      tags: ['Flutter', 'Node.js', 'PostgreSQL', 'Firebase'],
+      fullDesc: `
+        TailTrips is a comprehensive hotel booking ecosystem designed to handle end-to-end travel operations. 
+        It features a high-performance consumer app, a partner management portal, and a scalable cloud backend.
+      `,
+      features: [
+        'Real-time Room Inventory & Dynamic Pricing',
+        'Custom Reward Wallet & Loyalty Engine',
+        'Advanced Coupon & Promotion Management',
+        'Multi-role Auth (User, Partner, Admin)',
+        'Automated Booking Confirmation System'
+      ],
+      techDetails: {
+        frontend: 'Flutter (Mobile) & React/JS (Admin)',
+        backend: 'Node.js, Express.js',
+        database: 'PostgreSQL (Neon), Firebase',
+        infrastructure: 'REST APIs, Cloud Migrations'
+      }
     },
     {
+      id: 'ai-pothole',
       title: 'AI Pothole Detection',
-      desc: 'Computer vision system for real-time road infrastructure monitoring and reporting.',
-      tags: ['Python', 'TensorFlow', 'React'],
-      link: '#',
+      desc: 'Computer vision system for real-time road infrastructure monitoring using TensorFlow and high-speed data processing.',
+      tags: ['Python', 'TensorFlow', 'OpenCV'],
+      features: ['Real-time Object Detection', 'Geotagging Anomalies', 'Admin Reporting Dashboard'],
     },
     {
-      title: 'Smart Recommendation System',
-      desc: 'Personalized content discovery engine using machine learning algorithms.',
-      tags: ['AI/ML', 'Node.js', 'Firebase'],
-      link: '#',
+      id: 'recommendation',
+      title: 'Smart ML Recommendation',
+      desc: 'A personalized content discovery engine using collaborative filtering and user behavior analysis.',
+      tags: ['Python', 'Scikit-Learn', 'Node.js'],
+      features: ['Personalized Feeds', 'A/B Testing Support', 'High-speed Inference'],
     }
   ];
 
@@ -199,13 +220,11 @@ const Projects = () => {
       <div className="container">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div>
-            <h2 className="text-4xl md:text-5xl mb-4">Featured Work</h2>
-            <p className="text-muted">Explore some of our recent product engineering projects.</p>
+            <h2 className="text-4xl md:text-5xl mb-4">Featured Projects</h2>
+            <p className="text-muted">Explore the engineering behind our most complex products.</p>
           </div>
-          <a href="#" className="text-primary flex items-center gap-2 font-semibold">
-            View All Work <ExternalLink size={18} />
-          </a>
         </div>
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((p, i) => (
             <motion.div
@@ -213,12 +232,13 @@ const Projects = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               whileHover={{ y: -10 }}
-              className="glass overflow-hidden group"
+              className="glass overflow-hidden group cursor-pointer"
+              onClick={() => setSelectedProject(p)}
             >
               <div className="aspect-video bg-[#111] p-8 flex items-center justify-center relative">
                 <Code size={48} className="text-primary/20 group-hover:text-primary/40 transition-colors" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                  <a href={p.link} className="btn-primary py-2 px-4 text-sm">View Details</a>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                  <span className="btn-primary py-2 px-4 text-xs">View Case Study</span>
                 </div>
               </div>
               <div className="p-6">
@@ -235,6 +255,80 @@ const Projects = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Case Study Modal */}
+        <AnimatePresence>
+          {selectedProject && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12"
+            >
+              <div className="absolute inset-0 bg-black/90 backdrop-blur-xl" onClick={() => setSelectedProject(null)} />
+              <motion.div 
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                className="glass w-full max-w-4xl max-h-[90vh] overflow-y-auto relative z-10 p-8 md:p-12"
+              >
+                <button 
+                  className="absolute top-6 right-6 text-muted hover:text-white"
+                  onClick={() => setSelectedProject(null)}
+                >
+                  <X size={32} />
+                </button>
+                
+                <span className="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">Case Study</span>
+                <h2 className="text-3xl md:text-5xl mb-8">{selectedProject.title}</h2>
+                
+                <div className="grid md:grid-cols-3 gap-12">
+                  <div className="md:col-span-2">
+                    <h4 className="text-xl mb-4">The Challenge</h4>
+                    <p className="text-muted mb-8 leading-relaxed">
+                      {selectedProject.fullDesc || selectedProject.desc}
+                    </p>
+                    
+                    <h4 className="text-xl mb-4">Key Features</h4>
+                    <ul className="space-y-3 mb-12">
+                      {selectedProject.features.map((f, i) => (
+                        <li key={i} className="flex items-start gap-3 text-muted">
+                          <CheckCircle2 size={18} className="text-primary mt-1" />
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    {selectedProject.id === 'tailtrips' && (
+                      <div className="p-6 glass border-primary/20 bg-primary/5 rounded-2xl mb-8">
+                        <h4 className="text-lg mb-4 text-white">Project Impact</h4>
+                        <p className="text-sm text-muted italic">
+                          "Successfully integrated real-time inventory management with a Node.js backend, 
+                          transitioning from Firebase to a hybrid PostgreSQL architecture to support complex 
+                          relational queries and reporting for the Admin Portal."
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="space-y-8">
+                    <div className="glass p-6">
+                      <h4 className="text-sm uppercase tracking-wider text-muted mb-4">Architecture</h4>
+                      <div className="space-y-4">
+                        {selectedProject.techDetails && Object.entries(selectedProject.techDetails).map(([key, val]) => (
+                          <div key={key}>
+                            <div className="text-[10px] uppercase font-bold text-primary mb-1">{key}</div>
+                            <div className="text-sm">{val}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <a href="#contact" className="btn-primary w-full text-center">Start Similiar Project</a>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
@@ -309,11 +403,67 @@ const Footer = () => (
   </footer>
 );
 
+const About = () => {
+  const team = [
+    {
+      name: 'Gayatri Tikar',
+      role: 'Full Stack Developer & AI/ML Engineer',
+      bio: 'Expert in building scalable Flutter applications and custom Machine Learning solutions. Passionate about creating intuitive UI/UX experiences.',
+      skills: ['Flutter', 'React', 'Python', 'AI/ML']
+    },
+    {
+      name: 'Abhishek Gase',
+      role: 'Backend Architect & API Specialist',
+      bio: 'Specializes in high-performance backend systems and complex database architectures. Expert in Node.js, Spring Boot, and cloud infrastructure.',
+      skills: ['Node.js', 'PostgreSQL', 'Spring Boot', 'Cloud']
+    }
+  ];
+
+  return (
+    <section id="about" className="section-padding">
+      <div className="container">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl mb-4">The Team Behind the Studio</h2>
+          <p className="text-muted max-w-2xl mx-auto">
+            We are passionate developers focused on creating high-quality digital experiences 
+            that combine technology, creativity, and problem-solving.
+          </p>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-8">
+          {team.map((member, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: i === 0 ? -20 : 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="glass p-8 md:p-12 relative overflow-hidden group"
+            >
+              <div className={`absolute top-0 right-0 w-32 h-32 ${i === 0 ? 'bg-primary/5' : 'bg-secondary/5'} blur-3xl -z-10`} />
+              <h3 className="text-3xl mb-2">{member.name}</h3>
+              <p className="text-primary font-semibold mb-6 uppercase tracking-widest text-xs">{member.role}</p>
+              <p className="text-muted leading-relaxed mb-8">{member.bio}</p>
+              
+              <div className="flex flex-wrap gap-2">
+                {member.skills.map(skill => (
+                  <span key={skill} className="px-3 py-1 glass text-[10px] font-bold text-white/70 uppercase">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 function App() {
   return (
     <div className="app">
       <Navbar />
       <Hero />
+      <About />
       <Services />
       <Projects />
       <Contact />
