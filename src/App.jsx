@@ -87,6 +87,7 @@ const Hero = () => (
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
+        className="hero-content"
       >
         <h1 className="text-5xl md:text-7xl mb-6 leading-tight">
           We Build Modern <span className="gradient-text">Websites</span>, Apps & AI Solutions
@@ -95,7 +96,7 @@ const Hero = () => (
           Creative software development studio specializing in full-stack engineering, 
           AI/ML systems, and scalable digital products. Founded by Gayatri Tikar & Abhishek Gase.
         </p>
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-4 hero-btns">
           <a href="#projects" className="btn-primary">
             View Projects <ArrowRight size={20} />
           </a>
