@@ -110,7 +110,7 @@ const Hero = () => (
         initial={{ opacity: 0, scale: 0.8 }}
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1 }}
-        className="relative"
+        className="relative hero-image-container"
       >
         <div className="glass p-2 relative z-10">
           <img 
@@ -352,13 +352,30 @@ const Contact = () => (
                 <div className="w-12 h-12 glass flex items-center justify-center rounded-full text-primary">
                   <Mail size={20} />
                 </div>
-                <span>hello@nextnova.studio</span>
+                <div className="flex flex-col">
+                  <span className="text-[10px] uppercase font-bold text-primary">Gayatri Tikar</span>
+                  <span className="text-sm">tikargayatri4@gmail.com</span>
+                </div>
               </div>
+
+              <div className="flex items-center gap-4 text-muted hover:text-white transition-colors cursor-pointer">
+                <div className="w-12 h-12 glass flex items-center justify-center rounded-full text-primary">
+                  <Mail size={20} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[10px] uppercase font-bold text-primary">Abhishek Gase</span>
+                  <span className="text-sm">abhigase@gmail.com</span>
+                </div>
+              </div>
+
               <div className="flex items-center gap-4 text-muted hover:text-white transition-colors cursor-pointer">
                 <div className="w-12 h-12 glass flex items-center justify-center rounded-full text-secondary">
                   <MessageSquare size={20} />
                 </div>
-                <span>WhatsApp: +91 (Studio)</span>
+                <div className="flex flex-col">
+                  <span className="text-[10px] uppercase font-bold text-secondary">WhatsApp Support</span>
+                  <span className="text-sm">+91 8767948245 / 8390642150</span>
+                </div>
               </div>
             </div>
           </div>
@@ -384,6 +401,34 @@ const Contact = () => (
     </div>
   </section>
 );
+
+const Testimonials = () => {
+  const reviews = [
+    { name: 'S. Patil', role: 'Project Manager', text: 'Professional UI and smooth execution. The TailTrips ecosystem is a testament to their full-stack capabilities.' },
+    { name: 'K. Deshmukh', role: 'Tech Lead', text: 'Highly impressed with the AI Pothole detection system. Clean code and robust architecture.' }
+  ];
+
+  return (
+    <section className="section-padding bg-white/5">
+      <div className="container">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl mb-4">What Our Partners Say</h2>
+        </div>
+        <div className="grid md:grid-cols-2 gap-8">
+          {reviews.map((r, i) => (
+            <div key={i} className="glass p-8 border-white/5">
+              <p className="text-muted italic mb-6">"{r.text}"</p>
+              <div>
+                <div className="font-bold">{r.name}</div>
+                <div className="text-xs text-primary uppercase tracking-widest">{r.role}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 const Footer = () => (
   <footer className="py-12 border-t border-white/5">
@@ -466,6 +511,7 @@ function App() {
       <About />
       <Services />
       <Projects />
+      <Testimonials />
       <Contact />
       <Footer />
       

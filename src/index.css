@@ -100,7 +100,7 @@ h1, h2, h3, h4 {
 }
 
 .section-padding {
-  padding: 120px 0;
+  padding: 140px 0; /* Increased for better breathing room */
 }
 
 .gradient-text {
@@ -156,6 +156,14 @@ h1, h2, h3, h4 {
 .w-full { width: 100%; }
 .h-auto { height: auto; }
 .aspect-video { aspect-ratio: 16 / 9; }
+.hero-image-container {
+  margin-top: 40px; /* Prevents overlapping with navbar */
+}
+@media (min-width: 768px) {
+  .hero-image-container {
+    margin-top: 0;
+  }
+}
 
 .p-2 { padding: 8px; }
 .p-4 { padding: 16px; }
